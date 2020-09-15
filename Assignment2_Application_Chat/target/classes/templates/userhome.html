@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	layout:decorator="layout">
+
+<head>
+<title>User Home</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.0/handlebars.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js"></script>
+    <!--    libs for stomp and sockjs-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <!--    end libs for stomp and sockjs-->
+</head>
+<body>
+	<div layout:fragment="content">
+		<p>
+			Welcome <span id="span_Id" sec:authentication="principal.username">User</span>
+		</p>
+		<p>
+			<a th:href="@{/logout}">Logout</a>
+		</p>
+
+		<div sec:authorize="hasRole('ROLE_ADMIN')">
+			<h3>You will see this only if you are ADMIN</h3>
+			<p>
+				<a th:href="@{/admin/home}">Admin Home</a>
+			</p>
+		</div>
+	
+		<div class="dang clearfix">
+			<div class="people-list" id="people-list">
+				<div class="search">
+					<input id="userName" placeholder="search" type="text" />
+					<button th:onclick="registration()">Search</button>
+					<button th:onclick="fetchAll()">Refresh</button>
+				</div>
+				<ul class="list" id="usersList">
+
+
+				</ul>
+			</div>
+
+			<div class="chat">
+				<div class="chat-header clearfix">
+					<img alt="avatar" height="55px"
+						src="https://rtfm.co.ua/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png"
+						width="55px" />
+
+					<div class="chat-about">
+						<div class="chat-with" id="selectedUserId"></div>
+						<div class="chat-num-messages"></div>
+					</div>
+					<i class="fa fa-star"></i>
+				</div>
+				<!-- end chat-header -->
+
+				<div class="chat-history">
+					<ul>
+
+					</ul>
+
+				</div>
+				<!-- end chat-history -->
+
+				<div class="chat-message clearfix">
+					<textarea id="message-to-send" name="message-to-send"
+						placeholder="Type your message" rows="3"></textarea>
+
+					<i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp; <i
+						class="fa fa-file-image-o"></i>
+
+					<button id="sendBtn">Send</button>
+
+				</div>
+				<!-- end chat-message -->
+
+			</div>
+			<!-- end chat -->
+
+		</div>
+		<!-- end container -->
+
+	</div>
+
+</body>
+
+</html>
